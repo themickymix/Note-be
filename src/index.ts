@@ -9,7 +9,7 @@ const app = new Hono();
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:3001"],
+    origin: ["*"],
    allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
