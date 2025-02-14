@@ -8,7 +8,7 @@ dotenv.config();
 const app = new Hono();
 app.use(
   cors({
-    origin: ["http://localhost:3001", "https://noteapp-lake.vercel.app"],
+    origin: ["http://localhost:3001", "https://noteapp-lake.vercel.app", "http://localhost:3000"],
    allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
