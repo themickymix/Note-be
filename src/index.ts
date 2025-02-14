@@ -1,16 +1,18 @@
 import { Hono } from "hono";
-import { serve } from "@hono/node-server";
 import { connectDB } from "./db/database";
 import { routes } from "./controller/routes";
 import { cors } from "hono/cors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+
 dotenv.config();
+
 const app = new Hono();
+
 app.use(
   "*",
   cors({
-    origin: ["*"],
-   allowHeaders: [
+    origin: "*",
+    allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
       "Content-Type",
@@ -21,33 +23,18 @@ app.use(
     ],
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    maxAge: 600, 
-    credentials: true,
-  })
-);
-/* app.use(
-  "*",
-  cors({      
-    origin: "http://localhost:3001/",
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
     maxAge: 600,
     credentials: true,
   })
 );
- */
+
 /* Routes */
 routes.forEach((route) => {
   app.route("/api", route);
 });
 
-// Connect MongoDB
+// ✅ Connect MongoDB (but ensure it doesn't run multiple times in serverless)
 connectDB();
 
-serve({
-  fetch: app.fetch,
-  port: 3000,
-});
-
-console.log("🚀 Server running at http://localhost:3000");
+// ✅ Vercel requires a **default export**
+export default app;
