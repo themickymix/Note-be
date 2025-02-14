@@ -1,0 +1,69 @@
+// NOTES
+
+POST http://localhost:3000/api/notes
+Content-Type: application/json
+
+{
+  "title": "michael 1 notes"
+}
+
+
+###
+GET http://localhost:3000/api/notes
+Content-Type: application/json
+###
+DELETE http://localhost:3000/api/notes/67aee48756e692c359915a01
+
+###
+PUT http://localhost:3000/api/notes/67aee48756e692c359915a01
+Content-Type: application/json
+
+{
+  "title": "this is edited",
+  "content": "I add some content"
+}
+###
+
+GET http://localhost:3000/api/notes
+
+
+
+
+
+
+// USERS
+###
+GET http://localhost:3000/api/users
+//create
+###
+POST http://localhost:3000/api/users
+
+{
+  "name": "michael3",
+  "email": "michael3@gmail.com",
+  "password": "michael3"
+}
+
+//delete
+###
+DELETE http://localhost:3000/api/user/67aee7ee046ca9e00d78f4ad
+
+
+//get user name
+###
+GET http://localhost:3000/api/user/67aee8e4046ca9e00d78f4b9
+
+
+// login
+###
+POST http://localhost:3000/api/user/login
+
+{
+   "email": "michael3@gmail.com",
+  "password": "michael3"
+}
+
+
+//logout
+###
+POST http://localhost:3000/api/user/logout
