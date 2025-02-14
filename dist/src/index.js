@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
 app.use("*", cors({
-    origin: ["*"],
+    origin: ["http://localhost:3001"],
     allowHeaders: [
         "X-Custom-Header",
         "Upgrade-Insecure-Requests",
@@ -45,3 +45,4 @@ serve({
     port: 3000,
 });
 console.log("🚀 Server running at http://localhost:3000");
+export default app;

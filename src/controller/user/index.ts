@@ -86,7 +86,7 @@ export const loginUser = async (c: Context) => {
       setCookie(c, "token", token, {
         path: "/",
         httpOnly: true,
-        secure: true, // Change to `true` in production with HTTPS
+        secure: false, // Change to `true` in production with HTTPS
         maxAge: 3600,
         sameSite: "Strict",
       });
@@ -108,7 +108,7 @@ export const loginUser = async (c: Context) => {
 export const logoutUser = async (c: Context) => {
   deleteCookie(c, "token", {
     path: "/",
-    secure: true,
+    secure: false,
     httpOnly: true,
     sameSite: "Strict",
   });

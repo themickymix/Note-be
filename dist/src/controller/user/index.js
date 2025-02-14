@@ -71,7 +71,7 @@ export const loginUser = async (c) => {
             setCookie(c, "token", token, {
                 path: "/",
                 httpOnly: true,
-                secure: true, // Change to `true` in production with HTTPS
+                secure: false, // Change to `true` in production with HTTPS
                 maxAge: 3600,
                 sameSite: "Strict",
             });
@@ -90,7 +90,7 @@ export const loginUser = async (c) => {
 export const logoutUser = async (c) => {
     deleteCookie(c, "token", {
         path: "/",
-        secure: true,
+        secure: false,
         httpOnly: true,
         sameSite: "Strict",
     });
