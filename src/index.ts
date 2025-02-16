@@ -7,19 +7,22 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
 
-app.use("*", cors());
 app.use(
-  "*",
   cors({
-    origin: "https://note-front-xi.vercel.app",
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "PUT", "DELETE"],
+    origin: "https://note-front-xi.vercel.app", // ✅ Allow only your frontend
+    allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
+    allowHeaders: [
+      "X-Custom-Header",
+      "Upgrade-Insecure-Requests",
+      "Content-Type",
+      "Authorization",
+      "accepts",
+    ],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
+    credentials: true, // ✅ Required for cookies/auth
     maxAge: 600,
-    credentials: true,
   })
 );
-
 /* app.use(
   "*",
   cors({      
