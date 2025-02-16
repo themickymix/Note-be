@@ -3,13 +3,13 @@ import { serve } from "@hono/node-server";
 import { connectDB } from "./db/database";
 import { routes } from "./controller/routes";
 import { cors } from "hono/cors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
 app.use(
   cors({
-    origin: ["http://localhost:3001", "https://noteapp-lake.vercel.app"],
-   allowHeaders: [
+    origin: [process.env.FRONTEND_URL as string],
+    allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
       "Content-Type",
@@ -20,7 +20,7 @@ app.use(
     ],
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    maxAge: 600, 
+    maxAge: 600,
     credentials: true,
   })
 );
