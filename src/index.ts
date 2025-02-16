@@ -6,9 +6,10 @@ import { cors } from "hono/cors";
 import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
+const frontendurl = process.env.FRONTEND_URL as string;
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL as string],
+    origin: [frontendurl],
     allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
