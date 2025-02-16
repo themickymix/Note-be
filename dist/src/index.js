@@ -20,6 +20,7 @@ app.use(cors({
     credentials: true, // ✅ Required for cookies/auth
     maxAge: 600,
 }));
+app.use("*", cors());
 /* app.use(
   "*",
   cors({

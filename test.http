@@ -77,3 +77,6 @@ POST  https://note-be-ql9a.onrender.com/api/user/login
    "email": "michael3@gmail.com",
   "password": "michael3"
 }
+
+###
+OPTIONS http://localhost:3000/api/user/login

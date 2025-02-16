@@ -23,6 +23,9 @@ app.use(
     maxAge: 600,
   })
 );
+
+app.use("*", cors());
+
 /* app.use(
   "*",
   cors({      

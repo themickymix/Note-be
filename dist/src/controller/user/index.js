@@ -71,9 +71,9 @@ export const loginUser = async (c) => {
             setCookie(c, "token", token, {
                 path: "/",
                 httpOnly: true,
-                secure: false, // Change to `true` in production with HTTPS
+                secure: true, // Change to `true` in production with HTTPS
                 maxAge: 3600,
-                sameSite: "Strict",
+                sameSite: "None",
             });
             return c.json({ message: "Login successful", token, user: user._id.toString() }, 200);
         }
@@ -90,9 +90,9 @@ export const loginUser = async (c) => {
 export const logoutUser = async (c) => {
     deleteCookie(c, "token", {
         path: "/",
-        secure: false,
+        secure: true,
         httpOnly: true,
-        sameSite: "Strict",
+        sameSite: "None",
     });
     return c.json({ message: "Logout successful" }, 200);
 };
