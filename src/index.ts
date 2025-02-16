@@ -7,11 +7,12 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
 const frontendurl = process.env.FRONTEND_URL as string;
-app.options("*", cors()); // Allow all preflight requests
+const frontendUrl = process.env.FRONTEND_URL as string;
 
 app.use(
+  "*",
   cors({
-    origin: [frontendurl],
+    origin: frontendUrl, // ✅ Allow only your frontend URL
     allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
@@ -20,11 +21,12 @@ app.use(
       "accepts",
       "Access-Control-Allow-Origin",
       "Credentials",
+      "Access-Control-Allow-Credentials",
     ],
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
     maxAge: 600,
-    credentials: true,
+    credentials: true, // ✅ Allows cookies & authentication headers
   })
 );
 
