@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
 app.use(cors({
-    origin: "https://note-front-xi.vercel.app", // ✅ Allow only your frontend
+    origin: ["https://note-front-xi.vercel.app", "http://localhost:3001"], // ✅ Allow only your frontend
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
     allowHeaders: [
         "X-Custom-Header",
