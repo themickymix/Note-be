@@ -6,19 +6,11 @@ import { cors } from "hono/cors";
 import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
-const frontendurl = process.env.FRONTEND_URL;
-app.use(cors({
-    origin: [frontendurl],
-    allowHeaders: [
-        "X-Custom-Header",
-        "Upgrade-Insecure-Requests",
-        "Content-Type",
-        "Authorization",
-        "accepts",
-        "Access-Control-Allow-Origin",
-        "Credentials",
-    ],
-    allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
+app.use("*", cors());
+app.use("*", cors({
+    origin: "https://note-front-xi.vercel.app",
+    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
+    allowMethods: ["POST", "GET", "PUT", "DELETE"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
     maxAge: 600,
     credentials: true,
