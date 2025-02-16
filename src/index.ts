@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
 const frontendurl = process.env.FRONTEND_URL as string;
+app.options("*", cors()); // Allow all preflight requests
+
 app.use(
   cors({
     origin: [frontendurl],
@@ -25,6 +27,7 @@ app.use(
     credentials: true,
   })
 );
+
 /* app.use(
   "*",
   cors({      
