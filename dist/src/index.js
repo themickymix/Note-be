@@ -16,7 +16,7 @@ app.use(cors({
         "accepts",
         "X-Custom-Header",
     ],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
+    exposeHeaders: ["Content-Length", "X-Kuma-Revision", "Set-Cookie"],
     maxAge: 600,
 }));
 /* Routes */
