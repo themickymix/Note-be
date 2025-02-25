@@ -29,7 +29,6 @@ export const createUser = async (c) => {
             secure: true, // Set `true` in production
             maxAge: 3600,
             sameSite: "None",
-            domain: "https://note-be-ql9a.onrender.com",
         });
         return c.json({ message: "User created!", user: newUser, token }, 201);
     }
@@ -101,7 +100,6 @@ export const loginUser = async (c) => {
                 secure: true,
                 maxAge: 3600,
                 sameSite: "None",
-                domain: "https://note-be-ql9a.onrender.com",
             });
             return c.json({ message: "Login successful", token, user: user._id.toString() }, 200);
         }
