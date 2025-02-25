@@ -97,7 +97,7 @@ export const loginUser = async (c) => {
             setCookie(c, "token", token, {
                 path: "/",
                 httpOnly: true,
-                secure: true, // Change to `true` in production with HTTPS
+                secure: c.req.url.startsWith("https"),
                 maxAge: 3600,
                 sameSite: "None",
             });
