@@ -7,32 +7,18 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = new Hono();
 app.use(cors({
-    origin: ["https://noteapp-fe-three.vercel.app"], // ✅ Allow only your frontend
+    origin: "https://noteapp-fe-three.vercel.app", // ✅ Ensure it's your exact frontend URL
+    credentials: true, // ✅ Required to allow cookies
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE", "PATCH"],
     allowHeaders: [
-        "X-Custom-Header",
-        "Upgrade-Insecure-Requests",
         "Content-Type",
         "Authorization",
         "accepts",
+        "X-Custom-Header",
     ],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    credentials: true, // ✅ Required for cookies/auth
     maxAge: 600,
 }));
-app.options("*", cors());
-/* app.use(
-  "*",
-  cors({
-    origin: "http://localhost:3001/",
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    maxAge: 600,
-    credentials: true,
-  })
-);
- */
 /* Routes */
 routes.forEach((route) => {
     app.route("/api", route);
