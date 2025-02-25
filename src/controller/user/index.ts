@@ -37,7 +37,7 @@ export const createUser = async (c: Context) => {
       httpOnly: true,
       secure: true, // Set `true` in production
       maxAge: 3600,
-      sameSite: "None",
+      sameSite: "none",
     });
 
     return c.json({ message: "User created!", user: newUser, token }, 201);
@@ -115,14 +115,13 @@ export const loginUser = async (c: Context) => {
       );
 
       // ✅ Set cookie
-     setCookie(c, "token", token, {
-       path: "/",
-       httpOnly: true,
-       secure: true,
-       maxAge: 3600,
-       sameSite: "None",
-     });
-
+      setCookie(c, "token", token, {
+        path: "/",
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600,
+        sameSite: "none",
+      });
 
       return c.json(
         { message: "Login successful", token, user: user._id.toString() },
