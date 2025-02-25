@@ -9,18 +9,19 @@ export const getNotes = async (c) => {
 };
 export const createNote = async (c) => {
     try {
-        const { title, content } = await c.req.json();
+        const { title, content, isPinned } = await c.req.json(); // ✅ Extract isPinned
         console.log("User from context:", c.get("user"));
         // ✅ Retrieve user from context
         const user = c.get("user");
         if (!user || !user._id) {
             return c.json({ message: "Unauthorized: No user attached" }, 401);
         }
-        // ✅ Create the note with user ID
-        const newNote = new Note({ title, content, user: user._id });
-        if (title === "") {
+        // ✅ Validate input
+        if (!title.trim()) {
             return c.json({ message: "Note title cannot be empty" }, 400);
         }
+        // ✅ Create the note with user ID and isPinned field
+        const newNote = new Note({ title, content, isPinned, user: user._id });
         await newNote.save();
         return c.json({ message: "Note created!", note: newNote }, 201);
     }
@@ -35,7 +36,8 @@ export const deleteNote = async (c) => {
         return c.json({ message: "Unauthorized: No user attached" }, 401);
     }
     const { id } = await c.req.param();
-    const note = await Note.findById({ _id: id, user: user._id });
+    console.log("Received delete request for note ID:", id);
+    const note = await Note.findOneAndDelete({ _id: id, user: user._id });
     if (!note) {
         return c.json({ message: "Note not found" }, 404);
     }
@@ -43,12 +45,65 @@ export const deleteNote = async (c) => {
     return c.json({ message: "Note deleted" }, 200);
 };
 export const updateNote = async (c) => {
-    const { id } = await c.req.param();
-    const note = await Note.findById(id);
-    if (!note) {
-        return c.json({ message: "Note not found" }, 404);
+    // Get the user from the context
+    const user = c.get("user");
+    if (!user || !user._id) {
+        return c.json({ message: "Unauthorized: No user attached" }, 401);
     }
-    const { title, content } = await c.req.json();
-    await note.updateOne({ title, content });
-    return c.json({ message: "Note updated" }, 200);
+    // Get the note ID from the request params
+    const { id } = await c.req.param();
+    // Get the updated data from the request body
+    const { title, content, isPinned } = await c.req.json();
+    try {
+        if (!title.trim() && !content.trim()) {
+            await Note.findOneAndDelete({ _id: id, user: user._id });
+            return c.json({ message: "Note deleted" }, 200);
+        }
+        // Find and update the note, ensuring it belongs to the current user
+        const note = await Note.findOneAndUpdate({ _id: id, user: user._id }, // Search filter: find note by ID and user
+        { $set: { title, content, isPinned } }, // The update operation: set title and content
+        { new: true });
+        // If the note doesn't exist or the user doesn't have access to it, return a 404 response
+        if (!note) {
+            return c.json({ message: "Note not found" }, 404);
+        }
+        // Return a response indicating the note was successfully updated
+        return c.json({ message: "Note updated", note }, 200);
+    }
+    catch (error) { }
+};
+export const getNote = async (c) => {
+    console.log(c.req.param());
+    const user = c.get("user");
+    try {
+        const { id } = await c.req.param();
+        const note = await Note.findById({ _id: id, user: user._id });
+        if (!note) {
+            return c.json({ message: "Note not found" }, 404);
+        }
+        return c.json(note);
+    }
+    catch (error) {
+        return c.json({ message: "Internal Server Error" }, 500);
+    }
+};
+export const togglePin = async (c) => {
+    const user = c.get("user");
+    if (!user || !user._id) {
+        return c.json({ message: "Unauthorized: No user attached" }, 401);
+    }
+    const { id } = await c.req.param();
+    try {
+        // Find the note and toggle the isPinned status
+        const note = await Note.findOne({ _id: id, user: user._id });
+        if (!note) {
+            return c.json({ message: "Note not found" }, 404);
+        }
+        note.isPinned = !note.isPinned; // ✅ Toggle pin state
+        await note.save();
+        return c.json({ message: `Note ${note.isPinned ? "pinned" : "unpinned"}`, note }, 200);
+    }
+    catch (error) {
+        return c.json({ message: "Server error", error }, 500);
+    }
 };

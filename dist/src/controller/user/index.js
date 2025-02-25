@@ -10,10 +10,30 @@ export const createUser = async (c) => {
         const hashedPassword = await argon2.hash(password);
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
-        return c.json({ message: "User created!", user: newUser }, 201);
+        // Generate JWT Token
+        const runtimeEnv = env(c);
+        const SECRET_KEY = runtimeEnv.JWT_SECRET || process.env.JWT_SECRET;
+        if (!SECRET_KEY) {
+            console.error("JWT_SECRET is missing in env variables");
+            return c.json({ message: "Server error" }, 500);
+        }
+        const token = await sign({
+            _id: newUser._id.toString(),
+            email: newUser.email,
+            exp: Math.floor(Date.now() / 1000) + 3600, // Expire in 1 hour
+        }, SECRET_KEY);
+        // Set cookie
+        setCookie(c, "token", token, {
+            path: "/",
+            httpOnly: true,
+            secure: true, // Set `true` in production
+            maxAge: 3600,
+            sameSite: "None",
+        });
+        return c.json({ message: "User created!", user: newUser, token }, 201);
     }
     catch (error) {
-        return c.json({ messsage: "User already exists" }, 400);
+        return c.json({ message: "User already exists" }, 400);
     }
 };
 // Delete user
@@ -39,12 +59,18 @@ export const updateUser = async (c) => {
 };
 // get user name
 export const user = async (c) => {
-    const { id } = c.req.param();
-    const user = await User.findById(id);
-    if (!user) {
-        return c.json({ message: "User not found" }, 404);
+    const id = c.req.param("id"); // ✅ Get the parameter correctly
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return c.json({ message: "User not found" }, 404);
+        }
+        return c.json({ name: user.name });
     }
-    return c.json({ name: user.name });
+    catch (error) {
+        console.error("Error fetching user:", error);
+        return c.json({ message: "Internal Server Error" }, 500);
+    }
 };
 // Login user
 export const loginUser = async (c) => {
