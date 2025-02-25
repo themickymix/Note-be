@@ -1,10 +1,12 @@
 import { Hono } from "hono";
-import { getNotes, createNote, deleteNote, updateNote } from "./index";
+import { getNotes, createNote, deleteNote, updateNote, getNote } from "./index";
 import { auth } from "@/middlewares/auth";
 const router = new Hono()
   .post("/notes", auth, createNote)
-  .get("/notes",auth, getNotes)
+  .get("/notes", auth, getNotes)
   .delete("/notes/:id", auth, deleteNote)
-  .put("/notes/:id", auth, updateNote);
+  .patch("/note/:id", auth, updateNote)
+  .get("/note/:id", auth, getNote)
+  .patch("/note/:id/pin", auth, getNote);
 
 export default router;

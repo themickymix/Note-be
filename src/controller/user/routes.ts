@@ -12,7 +12,7 @@ const router = new Hono()
 
   //Outside of auth
   // User Creation and Login
-  .post("/users", createUser) // Create user
+  .post("/user/signup", createUser) // Create user
   .post("/user/login", loginUser)
   .post("/user/logout", logoutUser)
   //Inside auth

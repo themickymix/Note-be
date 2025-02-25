@@ -1,19 +1,29 @@
 import { Schema, model } from "mongoose";
 
-const noteSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
+const noteSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: false,
+    },
+    content: {
+      type: String,
+      required: false,
+    },
+    isPinned: {
+      type: Boolean,
+      default: false,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  content: {
-    type: String,
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 const Note = model("Note", noteSchema);
 
 export default Note;

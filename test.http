@@ -10,13 +10,16 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/api/notes
-Content-Type: application/json
-###
-DELETE http://localhost:3000/api/notes/67aee48756e692c359915a01
 
-###
-PUT http://localhost:3000/api/notes/67aee48756e692c359915a01
 Content-Type: application/json
+withCredential: true
+###
+DELETE http://localhost:3000/api/note/67b6eacba1da08675efbf341
+Content-Type: application/json
+###
+PATCH http://localhost:3000/api/notes/67b2e62236a2330956a91469
+Content-Type: application/json
+withCredential: true
 
 {
   "title": "this is edited",
@@ -36,12 +39,12 @@ GET http://localhost:3000/api/notes
 GET http://localhost:3000/api/users
 //create
 ###
-POST http://localhost:3000/api/users
+POST http://localhost:3000/api/user/signup
 
 {
-  "name": "michael3",
-  "email": "michael3@gmail.com",
-  "password": "michael3"
+  "name": "michael4",
+  "email": "michael4@gmail.com",
+  "password": "michael4"
 }
 
 //delete

@@ -9,8 +9,12 @@ const app = new Hono();
 
 app.use(
   cors({
-    origin: ["https://note-front-xi.vercel.app", "http://localhost:3001"], // ✅ Allow only your frontend
-    allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
+    origin: [
+      "https://note-front-xi.vercel.app",
+      "http://localhost:3001",
+      "http://localhost:3000",
+    ], // ✅ Allow only your frontend
+    allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE", "PATCH"],
     allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
@@ -24,7 +28,7 @@ app.use(
   })
 );
 
-app.options("*", cors()); 
+app.options("*", cors());
 /* app.use(
   "*",
   cors({      
