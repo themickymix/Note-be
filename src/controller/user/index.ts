@@ -38,6 +38,7 @@ export const createUser = async (c: Context) => {
       secure: true, // Set `true` in production
       maxAge: 3600,
       sameSite: "None",
+      domain: "https://note-be-ql9a.onrender.com",
     });
 
     return c.json({ message: "User created!", user: newUser, token }, 201);
@@ -115,13 +116,15 @@ export const loginUser = async (c: Context) => {
       );
 
       // ✅ Set cookie
-      setCookie(c, "token", token, {
-        path: "/",
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // ✅ Secure in production
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ None for cross-site, Lax for local
-        maxAge: 3600,
-      });
+     setCookie(c, "token", token, {
+       path: "/",
+       httpOnly: true,
+       secure: true,
+       maxAge: 3600,
+       sameSite: "None",
+       domain: "https://note-be-ql9a.onrender.com",
+     });
+
 
       return c.json(
         { message: "Login successful", token, user: user._id.toString() },
