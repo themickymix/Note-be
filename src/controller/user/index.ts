@@ -34,7 +34,7 @@ export const createUser = async (c: Context) => {
     // Set cookie
     setCookie(c, "token", token, {
       path: "/",
-      httpOnly: true,
+      httpOnly: false,
       secure: true, // Set `true` in production
       maxAge: 3600,
       sameSite: "none",
@@ -117,7 +117,7 @@ export const loginUser = async (c: Context) => {
       // ✅ Set cookie
       setCookie(c, "token", token, {
         path: "/",
-        httpOnly: true,
+        httpOnly: false,
         secure: true,
         maxAge: 3600,
         sameSite: "none",
