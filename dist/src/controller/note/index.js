@@ -16,10 +16,11 @@ export const createNote = async (c) => {
         if (!user || !user._id) {
             return c.json({ message: "Unauthorized: No user attached" }, 401);
         }
-        // ✅ Validate input
-        if (!title.trim()) {
-            return c.json({ message: "Note title cannot be empty" }, 400);
-        }
+        /*     // ✅ Validate input
+            if (!title.trim()) {
+              return c.json({ message: "Note title cannot be empty" }, 400);
+            }
+         */
         // ✅ Create the note with user ID and isPinned field
         const newNote = new Note({ title, content, isPinned, user: user._id });
         await newNote.save();
