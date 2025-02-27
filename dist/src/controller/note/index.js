@@ -9,20 +9,19 @@ export const getNotes = async (c) => {
 };
 export const createNote = async (c) => {
     try {
-        const { title, content, isPinned } = await c.req.json(); // ✅ Extract isPinned
+        const { title, content, isPinned, bgColor } = await c.req.json(); // ✅ Extract isPinned
         console.log("User from context:", c.get("user"));
         // ✅ Retrieve user from context
         const user = c.get("user");
         if (!user || !user._id) {
             return c.json({ message: "Unauthorized: No user attached" }, 401);
         }
-        /*     // ✅ Validate input
-            if (!title.trim()) {
+        // ✅ Validate input
+        /*     if (!title.trim()) {
               return c.json({ message: "Note title cannot be empty" }, 400);
-            }
-         */
+            } */
         // ✅ Create the note with user ID and isPinned field
-        const newNote = new Note({ title, content, isPinned, user: user._id });
+        const newNote = new Note({ title, content, isPinned, user: user._id, bgColor });
         await newNote.save();
         return c.json({ message: "Note created!", note: newNote }, 201);
     }
@@ -100,7 +99,7 @@ export const togglePin = async (c) => {
         if (!note) {
             return c.json({ message: "Note not found" }, 404);
         }
-        note.isPinned = !note.isPinned; // ✅ Toggle pin state
+        note.isPinned = !note.isPinned; // ✅ Toggle pin stat
         await note.save();
         return c.json({ message: `Note ${note.isPinned ? "pinned" : "unpinned"}`, note }, 200);
     }

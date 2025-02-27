@@ -19,6 +19,10 @@ const noteSchema = new Schema(
       ref: "User",
       required: true,
     },
+    bgColor: {
+      type: String,
+      default: "#fff",
+    }
   },
   {
     timestamps: true,
