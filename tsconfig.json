@@ -19,7 +19,8 @@
     },
 
     /* Bundling */
-    "moduleResolution": "Bundler",
+    "moduleResolution": "NodeNext",
+"module": "NodeNext",
     "outDir": "./dist"
   },
   "include": ["**/*.ts", ".eslintrc.json"],
