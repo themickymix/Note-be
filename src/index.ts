@@ -8,7 +8,7 @@ dotenv.config();
 const app = new Hono();
 app.use(
   cors({
-    origin: "*", // ✅ Ensure it's your exact frontend URL
+    origin: "https://noteapp-fe-three.vercel.app", // ✅ Ensure it's your exact frontend URL
     credentials: true, // ✅ Required to allow cookies
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE", "PATCH"],
     allowHeaders: [

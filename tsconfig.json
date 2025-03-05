@@ -19,10 +19,9 @@
     },
 
     /* Bundling */
-    "moduleResolution": "NodeNext",
-"module": "NodeNext",
+    "moduleResolution": "Bundler",
     "outDir": "./dist"
   },
   "include": ["**/*.ts", ".eslintrc.json"],
-  "exclude": ["./node_modules", "dist", "vitest.config.ts"]
+  "exclude": ["./node_modules", "./dist", "vitest.config.ts"]
 }
